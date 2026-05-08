@@ -81,13 +81,6 @@ fun LoadingScreen(onFinished: () -> Unit) {
             HouseEmblem()
             Spacer(modifier = Modifier.height(28.dp))
             Text(
-                text = "Home Bills",
-                style = MaterialTheme.typography.displayMedium,
-                color = TextPrimary,
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
                 text = "Track your home utilities in one calm place",
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextSecondary

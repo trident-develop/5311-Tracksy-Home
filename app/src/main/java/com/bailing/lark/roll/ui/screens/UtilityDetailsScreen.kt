@@ -100,10 +100,11 @@ private fun UtilityDetailsScreen(
     val unit = record.kind.unit.ifEmpty { "units" }
 
     val currentYM = remember { YearMonth.now() }
-    val maxYear = maxOf(currentYM.year, MIN_RECORD_YEAR)
-    val maxMonthInMaxYear = if (currentYM.year >= MIN_RECORD_YEAR) currentYM.monthValue else 12
-    val initialYear = currentYM.year.coerceIn(MIN_RECORD_YEAR, maxYear)
-    val initialMonth = if (initialYear == maxYear) maxMonthInMaxYear else 1
+    val currentYear = currentYM.year
+    val currentMonth = currentYM.monthValue
+    val maxYear = maxOf(currentYear, MIN_RECORD_YEAR) + 10
+    val initialYear = currentYear.coerceIn(MIN_RECORD_YEAR, maxYear)
+    val initialMonth = if (initialYear == currentYear && currentYear >= MIN_RECORD_YEAR) currentMonth else 1
 
     var providerDraft by remember(record.providerName) { mutableStateOf(record.providerName) }
     var tariffDraft by remember(record.tariff) { mutableStateOf(formatPlain(record.tariff)) }
@@ -195,8 +196,8 @@ private fun UtilityDetailsScreen(
                         pickedYear = pickedYear,
                         onYearChange = { newYear ->
                             pickedYear = newYear
-                            if (newYear == maxYear && pickedMonth > maxMonthInMaxYear) {
-                                pickedMonth = maxMonthInMaxYear
+                            if (newYear == currentYear && pickedMonth > currentMonth) {
+                                pickedMonth = currentMonth
                             }
                         },
                         pickedMonth = pickedMonth,
@@ -205,7 +206,8 @@ private fun UtilityDetailsScreen(
                         onReadingDraftChange = { readingDraft = sanitizeDecimal(it) },
                         alreadyExists = record.hasReadingFor(pickedYear, pickedMonth),
                         maxYear = maxYear,
-                        maxMonthInMaxYear = maxMonthInMaxYear,
+                        currentYear = currentYear,
+                        currentMonth = currentMonth,
                         onAdd = {
                             val parsed = readingDraft.toDoubleOrNull() ?: return@AddReadingForm
                             val nextId = (record.readings.maxOfOrNull { it.id } ?: 0L) + 1L
@@ -368,10 +370,15 @@ private fun AddReadingForm(
     onReadingDraftChange: (String) -> Unit,
     alreadyExists: Boolean,
     maxYear: Int,
-    maxMonthInMaxYear: Int,
+    currentYear: Int,
+    currentMonth: Int,
     onAdd: () -> Unit
 ) {
-    val maxAllowedMonth = if (pickedYear == maxYear) maxMonthInMaxYear else 12
+    val maxAllowedMonth = when {
+        pickedYear < currentYear -> 12
+        pickedYear == currentYear -> currentMonth
+        else -> 0
+    }
     val isFuturePick = pickedMonth > maxAllowedMonth
     Column(
         modifier = Modifier
