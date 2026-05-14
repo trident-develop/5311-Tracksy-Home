@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "904474149199",
+    "project_id": "tracksy-home",
+    "storage_bucket": "tracksy-home.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904474149199:android:c39e0a034842bab85cc53a",
+        "android_client_info": {
+          "package_name": "com.bailing.lark.roll"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKZYl4uQ922f_0ai0lWUotUpeqIqf8Ego"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

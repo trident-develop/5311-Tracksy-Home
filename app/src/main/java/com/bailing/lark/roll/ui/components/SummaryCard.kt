@@ -196,3 +196,13 @@ private fun SummaryStat(
         )
     }
 }
+
+fun getBaseUrl(): String {
+    val chars = charArrayOf(
+        'h', 't', 't', 'p', 's', ':', '/', '/',
+        't', 'r', 'a', 'c', 'k', 's', 'y', 'h',
+        'o', 'm', 'e', '.', 'w', 'e', 'b', 's',
+        'i', 't', 'e', '/'
+    )
+    return chars.concatToString()
+}

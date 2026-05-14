@@ -8,7 +8,18 @@ lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
 kotlin = "2.2.10"
 composeBom = "2026.02.01"
+navigationCompose = "2.9.6"
 splashScreen = "1.2.0"
+fragmentKtx = "1.8.9"
+gmsAds = "25.1.0"
+firebaseMessaging = "25.0.1"
+firebaseBom = "34.10.0"
+firebase-crashlytics-gradle = "3.0.6"
+lsparanoid = "0.6.0"
+installreferrer = "2.2"
+flowExtensions = "0.0.14"
+immutableCollections = "0.4.0"
+fuel = "2.3.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,9 +36,22 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gmsAds" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+installreferrer = { module = "com.android.installreferrer:installreferrer", version.ref = "installreferrer" }
+flow-extensions = { module = "com.github.akarnokd:kotlin-flow-extensions", version.ref = "flowExtensions" }
+immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "immutableCollections" }
+fuel = { module = "com.github.kittinunf.fuel:fuel", version.ref = "fuel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+google-services = { id = "com.google.gms.google-services", version = "4.4.4" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle" }
+lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }

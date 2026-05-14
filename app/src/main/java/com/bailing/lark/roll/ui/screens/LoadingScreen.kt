@@ -1,5 +1,6 @@
 package com.bailing.lark.roll.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -51,10 +52,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun LoadingScreen(onFinished: () -> Unit) {
-    LaunchedEffect(Unit) {
-        delay(2000)
-        onFinished()
-    }
+
+    BackHandler(enabled = true) {}
 
     Box(
         modifier = Modifier
