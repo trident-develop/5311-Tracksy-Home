@@ -36,9 +36,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.bailing.lark.roll.R
 import com.bailing.lark.roll.nav.Routes
 import com.bailing.lark.roll.ui.theme.AppFontFamily
@@ -59,12 +61,12 @@ fun ConnectScreen(navController: NavController) {
             .fillMaxSize()
             .background(BeigeBackground)
     ) {
-//        Image(
-//            painter = painterResource(R.drawable.bg_1),
-//            contentDescription = null,
-//            contentScale = ContentScale.Crop,
-//            modifier = Modifier.fillMaxSize()
-//        )
+        Image(
+            painter = painterResource(R.drawable.bg_1),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
 
         Box(
             modifier = Modifier
@@ -178,4 +180,40 @@ fun Context.isEgyptConnected(): Boolean {
                 hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
                 hasTransport(NetworkCapabilities.TRANSPORT_VPN)
     } == true
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    widthDp = 360,
+    heightDp = 640
+)
+
+@Preview(
+    name = "mdpi (160)",
+    widthDp = 320,
+    heightDp = 680,
+    fontScale = 1.0f,
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Preview(
+    name = "hdpi (240)",
+    widthDp = 450,
+    heightDp = 800,
+    fontScale = 1.0f,
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Composable
+private fun ScreenPreview() {
+    val navController = rememberNavController()
+    ConnectScreen(navController)
 }

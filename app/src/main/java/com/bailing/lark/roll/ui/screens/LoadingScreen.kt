@@ -1,12 +1,14 @@
 package com.bailing.lark.roll.ui.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -28,17 +30,29 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.bailing.lark.roll.R
 import com.bailing.lark.roll.ui.icons.UtilityIcon
 import com.bailing.lark.roll.ui.icons.UtilityIconKind
 import com.bailing.lark.roll.ui.theme.BeigeBackground
 import com.bailing.lark.roll.ui.theme.BeigeBorder
 import com.bailing.lark.roll.ui.theme.BeigeCard
+import com.bailing.lark.roll.ui.theme.Orange
 import com.bailing.lark.roll.ui.theme.PrimaryAccent
 import com.bailing.lark.roll.ui.theme.PrimaryAccentMuted
 import com.bailing.lark.roll.ui.theme.PrimaryAccentSoft
@@ -55,6 +69,41 @@ fun LoadingScreen(onFinished: () -> Unit) {
 
     BackHandler(enabled = true) {}
 
+    val infiniteTransition = rememberInfiniteTransition(label = "loading")
+
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.45f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1400, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glow"
+    )
+
+    val glowScale by infiniteTransition.animateFloat(
+        initialValue = 0.96f,
+        targetValue = 1.35f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1400, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+
+    val progressAnim by infiniteTransition.animateFloat(
+        initialValue = -1f,
+        targetValue = 2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 1800,
+                easing = LinearEasing
+            ),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "progress"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +118,26 @@ fun LoadingScreen(onFinished: () -> Unit) {
             ),
         contentAlignment = Alignment.Center
     ) {
-        FloatingIconsBackdrop()
+
+        Image(
+            painter = painterResource(R.drawable.bg_1),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize().background(Color.Black.copy(0.2f)))
+        Image(
+            painter = painterResource(R.drawable.tiger),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .fillMaxWidth(0.65f)
+                .offset(x = 60.dp, y = 50.dp)
+                .rotate(-20f)
+        )
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,21 +145,83 @@ fun LoadingScreen(onFinished: () -> Unit) {
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp)
         ) {
-            HouseEmblem()
+
+            Text(
+                text = "Lucky Tiger",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 46.sp,
+                color = Orange
+            )
+
             Spacer(modifier = Modifier.height(28.dp))
-            Text(
-                text = "Track your home utilities in one calm place",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            InfiniteProgressTrack()
-            Spacer(modifier = Modifier.height(14.dp))
-            Text(
-                text = "Preparing your overview…",
-                style = MaterialTheme.typography.labelMedium,
-                color = TextSecondary
-            )
+
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .size(350.dp)
+                        .scale(glowScale)
+                        .background(
+                            Brush.radialGradient(
+                                colors = listOf(
+                                    Orange.copy(alpha = 0.82f * glowAlpha),
+                                    Color.Transparent
+                                )
+                            ),
+                            shape = CircleShape
+                        )
+                        .blur(30.dp)
+                )
+
+                Image(
+                    painter = painterResource(R.drawable.flashlight),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxSize(0.7f)
+                        .graphicsLayer {
+                            alpha = 0.92f + (glowAlpha * 0.08f)
+                        }
+                )
+            }
+
+            Spacer(modifier = Modifier.fillMaxHeight(0.3f))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.82f)
+                    .height(34.dp)
+                    .clip(RoundedCornerShape(100))
+                    .background(Color.White.copy(alpha = 0.16f))
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.35f)
+                        .offset {
+                            IntOffset(
+                                x = (progressAnim * 600).dp.roundToPx(),
+                                y = 0
+                            )
+                        }
+                        .clip(RoundedCornerShape(100))
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(
+                                    Color.Transparent,
+                                    Orange.copy(alpha = 0.3f),
+                                    Orange,
+                                    Orange.copy(alpha = 0.3f),
+                                    Color.Transparent
+                                )
+                            )
+                        )
+                )
+            }
         }
     }
 }
@@ -287,4 +417,40 @@ private fun FloatingIcon(
             strokeWidth = 1.8.dp
         )
     }
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    widthDp = 360,
+    heightDp = 640
+)
+
+@Preview(
+    name = "mdpi (160)",
+    widthDp = 320,
+    heightDp = 680,
+    fontScale = 1.0f,
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Preview(
+    name = "hdpi (240)",
+    widthDp = 450,
+    heightDp = 800,
+    fontScale = 1.0f,
+    showBackground = true,
+    showSystemUi = true
+)
+
+@Composable
+private fun ScreenPreview() {
+    val navController = rememberNavController()
+    LoadingScreen { }
 }
